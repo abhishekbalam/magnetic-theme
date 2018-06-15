@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+	{% include head.html %}
+<body>
+
+	{% include header.html %}
+	<section class="main clearfix" id="map">
+	</section><!-- end main/map -->
+	<script>
+    var locations = []
+    {% for post in site.posts %}
+        var post_array=[]
+
+        post_array.push("{{post.date | date_to_string}}");
+        post_array.push("{{post.location}}");
+        post_array.push("{{post.url}}");
+        post_array.push("{{post.tag}}");
+        locations.push(post_array)
+    {% endfor %}
+// 	var locations = [
+//     ['Kalsubai', 'Kalsubai Peak', 'http://abhishekbalam.xyz'],
+//     ['Visapur', 'Visapur Fort', 'Location 2 URL'],
+//     ['Rajmachi', 'Rajmachi', 'Location 3 URL']
+// ];
+
+var geocoder;
+var map;
+var bounds = new google.maps.LatLngBounds();
+
+function initialize() {
+    map = new google.maps.Map(
+    document.getElementById("map"), {
+        center: new google.maps.LatLng(21.153889, 79.083056),
+        zoom: 13,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    });
+    geocoder = new google.maps.Geocoder();
+
+    for (i = 0; i < locations.length; i++) {
+
+
+        geocodeAddress(locations, i);
+    }
+}
+google.maps.event.addDomListener(window, "load", initialize);
+
+function geocodeAddress(locations, i) {
+    var date = locations[i][0];
+    var address = locations[i][1];
+    var url = locations[i][2];
+    var tag = locations[i][3]
+
+    geocoder.geocode({
+        'address': locations[i][1]
+    },
+
+    function (results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+            var marker = new google.maps.Marker({
+                icon: 'http://maps.google.com/mapfiles/ms/icons/blue.png',
+                //icon: '/assets/img/point.png',
+                map: map,
+                position: results[0].geometry.location,
+                date: date,
+                animation: google.maps.Animation.DROP,
+                address: address,
+                url: url,
+                tag:tag
+            })
+            infoWindow(marker, map, date, address, url, tag);
+            bounds.extend(marker.getPosition());
+            map.fitBounds(bounds);
+        } else {
+            alert("geocode of " + address + " failed:" + status);
+        }
+    });
+}
+
+function infoWindow(marker, map, date, address, url, tag) {
+    google.maps.event.addListener(marker, 'click', function () {
+        var html = "<div><h3 style='font-weight:700'>" + address + "</h3><p style='text-transform:capitalize'>" + date + "<br>"+tag+"<br></div><br><a href='" + url + "'>View Post</a></p></div>";
+        iw = new google.maps.InfoWindow({
+            content: html,
+            maxWidth: 350
+        });
+        iw.open(map, marker);
+    });
+}
+
+function createMarker(results) {
+    var marker = new google.maps.Marker({
+        icon: 'http://maps.google.com/mapfiles/ms/icons/blue.png',
+        //icon: '/assets/img/point.png',
+        map: map,
+        position: results[0].geometry.location,
+        date: date,
+        animation: google.maps.Animation.DROP,
+        address: address,
+        url: url,
+        tag:tag
+    })
+    bounds.extend(marker.getPosition());
+    map.fitBounds(bounds);
+    infoWindow(marker, map, date, address, url, tag);
+    return marker;
+}
+	</script>
+</body>
+</html>

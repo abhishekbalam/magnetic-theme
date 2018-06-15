@@ -1,0 +1,13 @@
+
+title: Travel Blog
+
+description: > # this means to ignore newlines until "baseurl:"
+  A blog of all my treks and travels.
+
+baseurl: "" 
+
+url: "http://travel.abhishekbalam.xyz"
+
+markdown: kramdown
+
+api_key: AIzaSyAWh7E-G5TGau8UPzE2fK0Ld60cDh_tVBI

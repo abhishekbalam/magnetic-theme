@@ -1,0 +1,18 @@
+	<title>{{site.title}}</title>
+	<meta charset="utf-8">
+	<meta name="author" content="pixelhint.com">
+	<meta name="description" content="Magnetic is a stunning responsive HTML5/CSS3 photography/portfolio website template"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
+	<link rel="stylesheet" type="text/css" href="{{ 'assets/css/reset.css' | relative_url }}">
+	<link rel="stylesheet" type="text/css" href="{{ 'assets/css/main.css' | relative_url }}">
+    <link rel="stylesheet" type="text/css" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    
+    <script type="text/javascript" src="{{ 'assets/js/jquery.js' | relative_url }}"></script>
+    {% if page.map %}
+    <!-- <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;sensor=false"></script> -->
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ site.api_key }}">
+    </script>
+    <!-- <script type="text/javascript" src="{{ 'assets/js/map.js' | relative_url }}"></script> -->
+    {% endif %}
+    <script type="text/javascript" src="{{ 'assets/js/main.js' | relative_url }}"></script>
+    
